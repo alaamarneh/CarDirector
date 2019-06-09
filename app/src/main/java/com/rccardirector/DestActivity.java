@@ -2,7 +2,6 @@ package com.rccardirector;
 
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
@@ -33,8 +32,6 @@ import static com.rccardirector.App.currLocation;
 import static com.rccardirector.App.destLocation;
 import static com.rccardirector.App.qualifyDestPoint;
 
-;
-
 public class DestActivity extends AppCompatActivity {
 
     private static final String TAG = "tag";
@@ -51,12 +48,11 @@ public class DestActivity extends AppCompatActivity {
     DataInputStream dataInputStream;
     AlertDialog progDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dest);
-        imgMap = (MapImageView) findViewById(R.id.imgMapDest);
+        imgMap = findViewById(R.id.imgMapDest);
         imgMap.setImage(ImageSource.resource(R.drawable.map2));
         imgMap.setPin(currLocation);
         imgMap.setOnTouchListener(new View.OnTouchListener() {
@@ -100,22 +96,22 @@ public class DestActivity extends AppCompatActivity {
 
                                     /*dataOutputStream.writeBytes("$path$");
                                     dataOutputStream.flush();*/
-                                    //dataOutputStream.writeBytes(Arrays.toString(imgMap.getSelectedPathPoints().toArray()));
-                                    for(Point p:imgMap.getSelectedPathPoints()){
-                                        Log.d(TAG, "run: " + p.x+","+p.y+"$");
+                                //dataOutputStream.writeBytes(Arrays.toString(imgMap.getSelectedPathPoints().toArray()));
+                                for (Point p : imgMap.getSelectedPathPoints()) {
+                                    Log.d(TAG, "run: " + p.x + "," + p.y + "$");
 //                                        dataOutputStream.writeBytes(p.x+","+p.y+"$") ;
 //                                        dataOutputStream.flush();
-                                    }
-                                    boolean flag=true;
+                                }
+                                boolean flag = true;
 
 
-                                    //System.out.println(imgMap.getSelectedPath() + "$$");
-                                    //Thread.sleep(10000);
-                                    Log.d(TAG, "run: path#$");
+                                //System.out.println(imgMap.getSelectedPath() + "$$");
+                                //Thread.sleep(10000);
+                                Log.d(TAG, "run: path#$");
 //                                    dataOutputStream.writeBytes("path#$");
 //                                    dataOutputStream.flush();
-                                    //outputStream.close();
-                                    System.out.println("Path sent");
+                                //outputStream.close();
+                                System.out.println("Path sent");
 //                                } catch (IOException e) {
 //                                    e.printStackTrace();
 //                                    Log.i("Error", e.getMessage(), e);
@@ -128,8 +124,8 @@ public class DestActivity extends AppCompatActivity {
                 new Runnable() {
                     @Override
                     public void run() {
-                        while(true) {
-                            while(clientSocket.isConnected());
+                        while (true) {
+                            while (clientSocket.isConnected()) ;
                             try {
                                 clientSocket = new Socket(InetAddress.getByName(serverIP), serverPort);
                                 bufferedOutputStream = new BufferedOutputStream(clientSocket.getOutputStream());
@@ -141,9 +137,8 @@ public class DestActivity extends AppCompatActivity {
                             } catch (IOException e) {
                                 Log.d("SocketError", e.getMessage());
                                 System.out.println(e.getMessage());
-                                Toast.makeText(DestActivity.this,"Can't find the car",Toast.LENGTH_LONG).show();
-                            }
-                            finally {
+                                Toast.makeText(DestActivity.this, "Can't find the car", Toast.LENGTH_LONG).show();
+                            } finally {
                                 continue;
                             }
                         }
@@ -161,8 +156,9 @@ public class DestActivity extends AppCompatActivity {
                                 while (true) {
                                     try {
                                         //System.out.println("NULL !");
-                                        if(dataInputStream != null)
-                                            if ((line = dataInputStream.readLine()) == null) continue;
+                                        if (dataInputStream != null)
+                                            if ((line = dataInputStream.readLine()) == null)
+                                                continue;
                                         //System.out.println("RECIEVED A MESSAGE !");
                                         System.out.println(line);
                                     } catch (SocketException e) {
@@ -170,7 +166,7 @@ public class DestActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                         continue;
                                     } catch (IOException e) {
-                                        if(e.getClass() == EOFException.class)
+                                        if (e.getClass() == EOFException.class)
                                             continue;
                                         //System.out.println("reciving");
                                         e.printStackTrace();
@@ -181,7 +177,7 @@ public class DestActivity extends AppCompatActivity {
                                     }
 
                                 }
-                            }catch(Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
@@ -215,6 +211,7 @@ public class DestActivity extends AppCompatActivity {
     class sendPath extends AsyncTask<Void, Void, Void> {
 
         ContentLoadingProgressBar progressBar;
+
         sendPath() {
             progressBar = new ContentLoadingProgressBar(DestActivity.this);
             progressBar.show();
