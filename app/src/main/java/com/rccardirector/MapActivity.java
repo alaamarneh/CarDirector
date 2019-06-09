@@ -1,6 +1,7 @@
 package com.rccardirector;
 
 import android.annotation.SuppressLint;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.rccardirector.App.carDirection;
 import static com.rccardirector.App.currLocation;
@@ -54,8 +61,85 @@ public class MapActivity extends AppCompatActivity {
     }
 
     public void click(View view) {
-        carDirection = App.Direction.SOUTH;
-        String path = imgMap.getSelectedPath();
-        Log.d(TAG, "path: " + path);
+//        carDirection = App.Direction.SOUTH;
+        int x1 = 0;
+        int y1 = 0;
+        int x2 = 0;
+        int y2 = 0;
+
+        List<Line> lines = new ArrayList<>();
+
+        for (int i = 0; i < imgMap.getSelectedPathPoints().size(); i++) {
+            Point point = imgMap.getSelectedPathPoints().get(i);
+            if (i == 0) {
+                x1 = point.x;
+                y1 = point.y;
+                continue;
+            }
+            if ((point.x != x1 && point.y != y1 || i == imgMap.getSelectedPathPoints().size() - 1)) {
+                Log.d(TAG, "new Line" + x1 + " " + y1 + " " + x2 + " " + y2);
+
+                lines.add(new Line(x1, x2, y1, y2));
+                x1 = x2;
+                y1 = y2;
+            } else {
+                x2 = point.x;
+                y2 = point.y;
+            }
+        }
+
+        for (int i = 0; i < lines.size(); i++) {
+            Line line = lines.get(i);
+            FirebaseDatabase.getInstance().getReference().child("car")
+                    .child(i + "")
+                    .setValue(line);
+        }
+
+    }
+
+    public static class Line {
+        private float x1, x2, y1, y2;
+
+        public Line() {
+        }
+
+        public Line(float x1, float x2, float y1, float y2) {
+            this.x1 = x1;
+            this.x2 = x2;
+            this.y1 = y1;
+            this.y2 = y2;
+        }
+
+        public float getX1() {
+            return x1;
+        }
+
+        public void setX1(float x1) {
+            this.x1 = x1;
+        }
+
+        public float getX2() {
+            return x2;
+        }
+
+        public void setX2(float x2) {
+            this.x2 = x2;
+        }
+
+        public float getY1() {
+            return y1;
+        }
+
+        public void setY1(float y1) {
+            this.y1 = y1;
+        }
+
+        public float getY2() {
+            return y2;
+        }
+
+        public void setY2(float y2) {
+            this.y2 = y2;
+        }
     }
 }

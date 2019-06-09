@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "816876996055",
+    "firebase_url": "https://cardirector-652a3.firebaseio.com",
+    "project_id": "cardirector-652a3",
+    "storage_bucket": "cardirector-652a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816876996055:android:45a3a2818be8193e",
+        "android_client_info": {
+          "package_name": "com.rccardirector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816876996055-0gd8ptuko5r7fibft9ua516k1v6ms93b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnzjfShT9xOYmowSGoQJZ5tOespwt2uMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816876996055-0gd8ptuko5r7fibft9ua516k1v6ms93b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
