@@ -10,6 +10,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.rccardirector.App.carDirection;
 import static com.rccardirector.App.currLocation;
