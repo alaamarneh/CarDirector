@@ -11,8 +11,21 @@
         android:layout_width="400dp"
         android:layout_height="400dp" />
     <Button
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:background="#4A9C13"
+        android:text="Send"
         android:onClick="click"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:background="#E04545"
+        android:text="Reset"
+        android:onClick="reset"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

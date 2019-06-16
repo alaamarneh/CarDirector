@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import android.graphics.*;
 import android.util.AttributeSet;
+
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import java.util.ArrayList;
@@ -19,10 +20,9 @@ import static com.rccardirector.App.mapPathMid;
 
 public class MapImageView extends SubsamplingScaleImageView {
 
-    private final Paint paint = new Paint()
-            ,linePaint = new Paint();
-    private final PointF vPin = new PointF(),gPin = new PointF();
-    private PointF sPin,dPin;
+    private final Paint paint = new Paint(), linePaint = new Paint();
+    private final PointF vPin = new PointF(), gPin = new PointF();
+    private PointF sPin, dPin;
     private Bitmap pin, car;
     boolean drawPath = false;
 
@@ -38,7 +38,7 @@ public class MapImageView extends SubsamplingScaleImageView {
 
     private List<Point> selectedPathPoints;
 
-    boolean[][] mapMatrix = new boolean[mapPathLength+1][mapPathLength+1];
+    boolean[][] mapMatrix = new boolean[mapPathLength + 1][mapPathLength + 1];
 
     public MapImageView(Context context) {
         this(context, null);
@@ -56,10 +56,11 @@ public class MapImageView extends SubsamplingScaleImageView {
         //initialise();
         postInvalidate();
     }
-    public void initialiseData(){
-        for(int i=0;i<mapPathLength;i++)
-            for(int j=0;j<mapPathLength;j++)
-                if(i== 0 || j == 0 || i == mapPathMid || j == mapPathMid || i == mapPathLength || j == mapPathLength)
+
+    public void initialiseData() {
+        for (int i = 0; i < mapPathLength; i++)
+            for (int j = 0; j < mapPathLength; j++)
+                if (i == 0 || j == 0 || i == mapPathMid || j == mapPathMid || i == mapPathLength || j == mapPathLength)
                     mapMatrix[i][j] = false;
                 else
                     mapMatrix[i][j] = true;
@@ -71,11 +72,12 @@ public class MapImageView extends SubsamplingScaleImageView {
         float density = getResources().getDisplayMetrics().densityDpi;
         pin = BitmapFactory.decodeResource(this.getResources(), R.drawable.pushpin_blue);
 
-        float w = (density/420f) * pin.getWidth()/2f;
-        float h = (density/420f) * pin.getHeight()/2f;
-        pin = Bitmap.createScaledBitmap(pin, (int)w, (int)h, true);
+        float w = (density / 420f) * pin.getWidth() / 2f;
+        float h = (density / 420f) * pin.getHeight() / 2f;
+        pin = Bitmap.createScaledBitmap(pin, (int) w, (int) h, true);
 
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -86,20 +88,20 @@ public class MapImageView extends SubsamplingScaleImageView {
         }
 
         paint.setAntiAlias(true);
-        
+
         Matrix matrix = new Matrix();
 
         car = BitmapFactory.decodeResource(this.getResources(), R.drawable.car);
         float density = getResources().getDisplayMetrics().densityDpi;
-        float w = (density/420f) * car.getWidth()/6f;
-        float h = (density/420f) * car.getHeight()/6f;
-        car = Bitmap.createScaledBitmap(car, (int)w, (int)h, true);
+        float w = (density / 420f) * car.getWidth() / 6f;
+        float h = (density / 420f) * car.getHeight() / 6f;
+        car = Bitmap.createScaledBitmap(car, (int) w, (int) h, true);
 
-        if(carDirection == App.Direction.NORTH)
+        if (carDirection == App.Direction.NORTH)
             matrix.postRotate(90);
-        else if(carDirection == App.Direction.EAST)
+        else if (carDirection == App.Direction.EAST)
             matrix.postRotate(180);
-        else if(carDirection == App.Direction.SOUTH)
+        else if (carDirection == App.Direction.SOUTH)
             matrix.postRotate(270);
 
         car = Bitmap.createBitmap(car, 0, 0, car.getWidth(),
@@ -107,20 +109,20 @@ public class MapImageView extends SubsamplingScaleImageView {
 
         if (sPin != null && pin != null) {
             sourceToViewCoord(sPin, vPin);
-            float vX = vPin.x - car.getWidth()/2;
-            float vY = vPin.y - (car.getHeight()/2);
+            float vX = vPin.x - car.getWidth() / 2;
+            float vY = vPin.y - (car.getHeight() / 2);
             canvas.drawBitmap(car, vX, vY, paint);
 
 
             try {
-            Paint linePaint = new Paint();
-            sourceToViewCoord(dPin, gPin);
-            PointF tmp = new PointF();
-            Path path = new Path();
-            //Find shortest path
-            final Maze maze = new Maze(mapMatrix);
-            final Point source = new Point((int) (sPin.x - mapOrigin.x), (int) (sPin.y - mapOrigin.y)); // Same as new Point(0, 0):
-            final Point target = new Point((int) (dPin.x - mapOrigin.x), (int) (dPin.y - mapOrigin.y));
+                Paint linePaint = new Paint();
+                sourceToViewCoord(dPin, gPin);
+                PointF tmp = new PointF();
+                Path path = new Path();
+                //Find shortest path
+                final Maze maze = new Maze(mapMatrix);
+                final Point source = new Point((int) (sPin.x - mapOrigin.x), (int) (sPin.y - mapOrigin.y)); // Same as new Point(0, 0):
+                final Point target = new Point((int) (dPin.x - mapOrigin.x), (int) (dPin.y - mapOrigin.y));
 
                 final List<Point> pathPoints = new MazePathFinder().findPath(maze,
                         source,
@@ -148,21 +150,20 @@ public class MapImageView extends SubsamplingScaleImageView {
                 canvas.drawPath(path, linePaint);
 
             } catch (Exception e) {
-
+                e.printStackTrace();
             } finally {
                 setDrawPath(false);
             }
-
-
         }
-
     }
-    void setDestination(PointF dest){
+
+    void setDestination(PointF dest) {
         dPin = dest;
         invalidate();
 
     }
-    void setDrawPath(boolean what){
+
+    void setDrawPath(boolean what) {
         drawPath = what;
     }
 

@@ -125,8 +125,8 @@ public class MazePathFinder {
                         "the height of the maze is " + maze.getHeight() + ".");
 
         if (!maze.cellIsFree(source.x, source.y)) {
-            throw new IllegalArgumentException(
-                    "The source node (" + source + ") is at a occupied cell.");
+//            throw new IllegalArgumentException(
+//                    "The source node (" + source + ") is at a occupied cell.");
         }
     }
 
